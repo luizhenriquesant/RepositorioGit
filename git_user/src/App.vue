@@ -1,16 +1,16 @@
 <template>
-  <HelloWorld @form-submitted="updateFormData" />
+  <InputUser @form-submitted="updateFormData" />
   <SearchData :formData="formData" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import InputUser from './components/InputUser.vue'
 import SearchData from './components/SearchData.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    InputUser,
     SearchData,
   },
   data() {

@@ -1,26 +1,24 @@
 <template>
     <div class="user">
-        <div>User Component</div>
         <div class="image">
             <img :src="user.avatar_url" />
         </div>
         <div class="name">
             {{ user.login }}
         </div>
-        
+
     </div>
+    <input type="text" v-model="search" placeholder="search repository" />
     <div class="repositorios">
         <ul id="myList" v-if="repos.length > 0">
-          <h4>Repositórios</h4>
-          <small>Total: {{ repos.length }}</small>
-          <hr />
-          <li v-for="repository in repos" :key="repository.id">
-            {{ repository.name }}
-          </li>
+            <h4>Repositórios</h4>
+            <small>Total: {{ repos.length }}</small>
+            <li v-for="repository in filteredRepos" :key="repository.id">
+                <a :href="repository.html_url" target="_blank">{{ repository.name }}</a>
+            </li>
         </ul>
-      </div>
+    </div>
 </template>
-  
 <script>
 import axios from "axios";
 
@@ -30,7 +28,8 @@ export default {
     data() {
         return {
             user: {},
-            repos: {}
+            repos: {},
+            search: ""
         };
     },
     watch: {
@@ -42,9 +41,16 @@ export default {
             },
         },
     },
+    computed: {
+        filteredRepos: function () {
+            return this.repos.filter((repository) => {
+                return repository.name.match(this.search);
+            });
+        }
+    },
     methods: {
         getUser() {
-            
+
             axios
                 .get(`https://api.github.com/users/${this.formData.nameData}`)
                 .then((res) => {
@@ -68,7 +74,5 @@ export default {
     },
 };
 </script>
-  
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
-  
+<style scoped>
+</style>
